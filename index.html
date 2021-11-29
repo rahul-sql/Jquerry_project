@@ -1,0 +1,202 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <div class="row">
+        <div class="form-group col-lg-5 bg-light m-auto">
+            <form method="post" id="signupform">
+
+                <h1 class="text-center p-3 text-danger ">REGISTER</h1>
+
+                <label for="fisrtname" class="from-control">First Name :</label>
+                <input type="text" class="fname input-box"><br>
+
+                <label for="lastname">Last Name :</label>
+                <input type="text" class="lname input-box"><br>
+
+                <label for="">Gmail :</label>
+                <input type="text" class="gmail input-box"><br>
+
+                <label for="">Mobile No. :</label>
+                <input type="text" class="phone input-box"><br>
+
+                <label for="">Password :</label>
+                <input type="password" class="pwd input-box"><br>
+
+                <label for="">Gender :</label>
+                <input type="radio" value="Male">
+                <label for="">Male</label>
+                <input type="radio" value="Female">
+                <label for="">Female</label><br>
+
+                <label>Country :</label>
+                <select id="country">
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                </select><br>
+
+                <button class="btn btn-primary w-100 submit" id="submit" type="button">SUBMIT</button>
+
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <div class="container-fluid row">
+        <div class="col-lg-10 col-md-12 col-sm-12 m-auto pt-5">
+            <div>
+            <button class="btn btn-danger delete-row">DELETE</button>
+            </div>
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Gmail</th>
+                    <th scope="col">Mobile No.</th>
+                    <th scope="col">Pasword</th>
+                  </tr>
+                </thead>
+                    <tbody>
+
+                    </tbody>
+              </table>
+        </div> 
+    </div>
+
+</body>
+<script>
+    
+$(document).ready(function () {
+
+    dataArray= [];
+    createTable();
+
+// validation
+function validateform() {
+    let fname = $('.fname').val();
+    let lname = $('.lname').val();
+    let gmail = $('.gmail').val();
+    let phone = $('.phone').val();
+    let password = $('.pwd').val();
+    // let gender = $('form input[type=radio]:checked').val();
+    // let country = $("#country option:selected").val();
+
+    if(fname==""){
+        alert("Please Enter First Name !!");
+        return false;
+    }
+    else if(lname==""){
+        alert("Please Enter Last Name !!");
+        return false;
+    }
+    else if(gmail==""){
+        alert("Please Enter Gmail !!");
+        return false;
+    }
+    else if(phone==""){
+        alert("Please Enter Phone !!");
+        return false;
+    }
+    else if(password==""){
+        alert("Please Enter Password !!");
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+// Onsubmit Button
+$('#submit').click(function(){
+    let fname = $('.fname').val();
+    let lname = $('.lname').val();
+    let gmail = $('.gmail').val();
+    let phone = $('.phone').val();
+    let password = $('.pwd').val();
+    // let gender = $('form input[type=radio]').val();
+    // let country = $("#country option:selected").val();
+
+    validateform();
+    createTable();
+
+    var addRow = "<tr><td><input type='checkbox' name='record'></td><td>" +
+                   fname + "</td><td>" + lname + "</td><td>" + gmail + 
+                   "</td><td>" + phone + "</td><td>" + password + 
+                   "</td></tr>";
+    $("table tbody").append(addRow);
+
+    resetform();
+
+    // we created a object & array where data is stored then stored it in local storage.
+    // we need to declare array as global variable so that its value could be used to all functions.
+    dataObj = {fname:fname, lname:lname, gmail:gmail, phone:phone, password:password};
+    // dataObj.fname = {fname};
+    // dataObj.lname = {lname};
+    // dataObj.gmail = {gmail};
+    // dataObj.phone = {phone};
+    // dataObj.password = {password};
+    dataArray.push(dataObj);
+
+    // convert JS OBject To JSON String stringify is used
+    localStorage.formdata = JSON.stringify(dataArray);
+});
+
+// converting JSON String to Js object
+
+function createTable() {
+
+    dataArray = JSON.parse(localStorage.formdata);
+    $('tbody').empty();
+    
+    for(let i=0; i<dataArray.length; i++){
+       
+        let fname = dataArray[i].fname;
+        let lname = dataArray[i].lname;
+        let gmail = dataArray[i].gmail;
+        let phone = dataArray[i].phone;
+        let password = dataArray[i].password;
+        
+        var addRow = "<tr><td><input type='checkbox' name='record'></td><td>" +
+        fname + "</td><td>" + lname + "</td><td>" + gmail + 
+        "</td><td>" + phone + "</td><td>" + password + 
+        "</td></tr>";
+
+        $("tbody").append(addRow);
+        resetform();
+    }
+}
+
+// Ondelte
+$(".delete-row").click(function(){
+    $("table tbody").find('input[name="record"]').each(function(){
+        if($(this).is(":checked")){
+            $(this).parents("tr").remove();
+        }
+    });
+});
+
+// resetform
+function resetform() {
+    $('.fname').val("");
+    $('.lname').val("");
+    $('.gmail').val("");
+    $('.phone').val("");
+    $('.pwd').val("");
+}
+});
+
+</script>
+<!-- <script src="js/js.js"></script> -->
+</html>

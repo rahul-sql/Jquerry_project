@@ -1,0 +1,30 @@
+
+body{
+    background-image: url("../images/bg.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+.input-box{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid black;
+    width: 55%;
+}
+
+.input-box:hover{
+    background-color: wheat;
+}
+
+.form-group{
+    opacity: 0.6;
+}
+
+.table{
+    background-color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    color: white;
+}
